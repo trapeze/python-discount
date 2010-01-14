@@ -4,7 +4,8 @@ Primary authors:
 
 Thanks to:
 
-* David Parsons and contributors for writing the awesome C library.
+* David Parsons and contributors for writing the awesome C library on
+  which this package depends.
 
 * Trapeze Media <http://trapeze.com> for providing the time and
   resources to work on this project.

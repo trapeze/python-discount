@@ -10,8 +10,6 @@ from distutils.core import setup, Extension
 
 DISCOUNT_VERSION = '1.5.8'
 
-DISCOUNT_VERSION_PYTHON = '0.1'
-
 DISCOUNT_CONFIGURATION = (
     # Use pandoc-style header blocks
     '--enable-pandoc-header',
@@ -123,11 +121,10 @@ class build_ext(_build_ext):
 setup(
     name='python-discount',
     license='BSD',
-    version='%s-%s' % (
-        DISCOUNT_VERSION,
-        DISCOUNT_VERSION_PYTHON
-    ),
+    version='0.1.0ALPHA',
+
     description='A Python interface for Discount, the C Markdown parser',
+    long_description=open('README.rst').read(),
 
     provides=[
         'discount',
