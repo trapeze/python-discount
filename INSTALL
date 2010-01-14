@@ -1,0 +1,26 @@
+Installing python-discount
+==========================
+
+Currently, python-discount compiles the Discount C library as a
+shared object, which is bundled and installed a long with the Python
+source.
+
+This is mainly for convenience but also because, currently, the
+Discount source compiles a static library file, and as far as I know,
+ctypes can only load dynamic libraries.
+
+If you have ways to improve the setup.py script, let me know!
+
+To install the package, simply run:
+
+    python setup.py install
+
+The setup script will download, unpack and configure the Discount
+source tarball.  Alternatively, you can point the build_ext
+command to a source directory:
+
+    python setup.py build_ext --discount-source-path=/path/to/discount
+    python setup.py install
+
+Please report any bugs with the setup.py script to the GitHub
+project page, http://github.com/trapeze/python-discount/issues
