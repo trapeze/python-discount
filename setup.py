@@ -121,7 +121,7 @@ class build_ext(_build_ext):
 setup(
     name='python-discount',
     license='BSD',
-    version='0.1.0ALPHA',
+    version='0.1ALPHA',
 
     description='A Python interface for Discount, the C Markdown parser',
     long_description=open('README.rst').read(),
