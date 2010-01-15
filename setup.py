@@ -10,6 +10,11 @@ from distutils.core import setup, Extension
 
 DISCOUNT_VERSION = '1.5.8'
 
+DISCOUNT_DOWNLOAD_URL = (
+    'http://packages.python.org/discount/'
+    'discount-%s.tar.gz'
+) % DISCOUNT_VERSION
+
 DISCOUNT_CONFIGURATION = (
     # Use pandoc-style header blocks
     '--enable-pandoc-header',
@@ -35,12 +40,6 @@ DISCOUNT_CONFIGURATION = (
     # Turn on all stable optional features
     # '--enable-all-features',
 )
-
-# TODO: host on pypi
-DISCOUNT_DOWNLOAD_URL = (
-    'http://www.pell.portland.or.us/'
-    '~orc/Code/discount/discount-%s.tar.gz'
-) % DISCOUNT_VERSION
 
 
 class build_ext(_build_ext):
@@ -123,8 +122,8 @@ setup(
     license='BSD',
     version='0.1.0BETA',
 
-    author='Trapeze Media',
-    author_email='technology@trapeze.com',
+    author='Trapeze',
+    author_email='tkemenczy@trapeze.com',
     url="http://github.com/trapeze/python-discount",
     download_url='http://pypi.python.org/pypi/discount',
     description='A Python interface for Discount, the C Markdown parser',
@@ -170,7 +169,7 @@ setup(
     },
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 3 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: C',

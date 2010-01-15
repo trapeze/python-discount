@@ -86,7 +86,7 @@ arguments.
   ``ignore_header``
     Do not process the `pandoc document header`_, but treat it like
     regular text.
-  
+
   ``ignore_links``
     Do not allow ``<a`` or expand ``[][]`` into a link.
 
@@ -199,6 +199,8 @@ See the ``LICENSE`` file in the source distribution for details.
 Credits
 -------
 
-discount is maintained by [Tamas Kemenczy](tkemenczy@trapeze.com), and
-is funded by [Trapeze](http://trapeze.com).  See the ``AUTHORS`` file
-for details.
+``discount`` is maintained by `Tamas Kemenczy`_, and is funded by
+`Trapeze`_.  See the ``AUTHORS`` file for details.
+
+.. _`Tamas Kemenczy`: mailto:tkemenczy@trapeze.com
+.. _`Trapeze`: http://trapeze.com
