@@ -123,6 +123,7 @@ setup(
     license='BSD',
     version='0.1.0ALPHA',
 
+    url="http://github.com/trapeze/python-discount",
     description='A Python interface for Discount, the C Markdown parser',
     long_description=open('README.rst').read(),
 
