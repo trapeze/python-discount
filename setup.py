@@ -119,13 +119,17 @@ class build_ext(_build_ext):
 
 
 setup(
-    name='python-discount',
+    name='discount',
     license='BSD',
-    version='0.1.0ALPHA',
+    version='0.1.0BETA',
 
+    author='Trapeze Media',
+    author_email='technology@trapeze.com',
     url="http://github.com/trapeze/python-discount",
+    download_url='http://pypi.python.org/pypi/discount',
     description='A Python interface for Discount, the C Markdown parser',
     long_description=open('README.rst').read(),
+    keywords='markdown discount ctypes',
 
     provides=[
         'discount',
@@ -164,4 +168,13 @@ setup(
     cmdclass={
         'build_ext': build_ext
     },
+
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Programming Language :: C',
+        'Programming Language :: Python',
+        'Topic :: Text Processing :: Markup'
+    ],
 )

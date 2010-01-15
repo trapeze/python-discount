@@ -1,5 +1,5 @@
-python-discount
-===============
+discount
+========
 
 This Python package is a ctypes binding of `David Loren`_'s
 `Discount`_, a C implementation of `John Gruber`_'s `Markdown`_.
@@ -180,10 +180,25 @@ Then you can run the tests::
     python tests.py
 
 
-Reporting bugs
---------------
+Source code and reporting bugs
+------------------------------
 
-You can report bugs on `GitHub project page`_.
+You can obtain the source code and report bugs on
+`GitHub project page`_.
 
 .. _`GitHub project page`:
    http://github.com/trapeze/python-discount/issues
+
+
+License
+-------
+
+See the ``LICENSE`` file in the source distribution for details.
+
+
+Credits
+-------
+
+discount is maintained by [Tamas Kemenczy](tkemenczy@trapeze.com), and
+is funded by [Trapeze](http://trapeze.com).  See the ``AUTHORS`` file
+for details.
