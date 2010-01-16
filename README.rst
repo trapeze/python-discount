@@ -1,8 +1,14 @@
 discount
 ========
 
-This Python package is a ctypes binding of `David Loren`_'s
+This Python package is a `ctypes`_ binding of `David Loren`_'s
 `Discount`_, a C implementation of `John Gruber`_'s `Markdown`_.
+
+.. _`ctypes`:      http://docs.python.org/library/ctypes.html
+.. _`David Loren`: http://www.pell.portland.or.us/~orc
+.. _`Discount`:    http://www.pell.portland.or.us/~orc/Code/discount/
+.. _`John Gruber`: http://daringfireball.net/
+.. _`Markdown`:    http://daringfireball.net/projects/markdown
 
 .. contents::
 
@@ -10,7 +16,7 @@ This Python package is a ctypes binding of `David Loren`_'s
 Introduction
 ------------
 
-Markdown is a text-to-HTML conversion tool for web writers. Markdown
+Markdown is a text-to-HTML conversion tool for web writers.  Markdown
 allows you to write using an easy-to-read, easy-to-write plain text
 format, then convert it to structurally valid XHTML (or HTML).
 
@@ -21,11 +27,6 @@ The ``discount`` Python module contains two things of interest:
 
 * ``Markdown``, a helper class built on top of ``libmarkdown``,
   providing a more familiar Pythonic interface
-
-.. _`David Loren`: http://www.pell.portland.or.us/~orc
-.. _`Discount`:    http://www.pell.portland.or.us/~orc/Code/discount/
-.. _`John Gruber`: http://daringfireball.net/
-.. _`Markdown`:    http://daringfireball.net/projects/markdown
 
 
 Using the ``Markdown`` class
@@ -64,47 +65,47 @@ example, this time using strings::
 The ``Markdown`` class constructor also takes optional boolean keyword
 arguments.
 
-  ``toc``
-    Generate table-of-contents headers (each generated <h1>, <h2>,
-    etc will include a id="name" argument.)  Use ``get_html_toc()``
-    or ``write_html_toc()`` to generate the table-of-contents
-    itself.
+``toc``
+  Generate table-of-contents headers (each generated <h1>, <h2>,
+  etc will include a id="name" argument.)  Use ``get_html_toc()``
+  or ``write_html_toc()`` to generate the table-of-contents
+  itself.
 
-  ``strict``
-    Disable relaxed emphasis and superscripts.
+``strict``
+  Disable relaxed emphasis and superscripts.
 
-  ``autolink``
-    Greedily expand links; if a url is encountered, convert it to a
-    hyperlink even if it isn't surrounded with ``<>s``.
+``autolink``
+  Greedily expand links; if a url is encountered, convert it to a
+  hyperlink even if it isn't surrounded with ``<>s``.
 
-  ``safelink``
-    Be paranoid about how ``[][]`` is expanded into a link - if the
-    url isn't a local reference, ``http://``, ``https://``,
-    ``ftp://``, or ``news://``, it will not be converted into a
-    hyperlink.
+``safelink``
+  Be paranoid about how ``[][]`` is expanded into a link - if the
+  url isn't a local reference, ``http://``, ``https://``,
+  ``ftp://``, or ``news://``, it will not be converted into a
+  hyperlink.
 
-  ``ignore_header``
-    Do not process the `pandoc document header`_, but treat it like
-    regular text.
+``ignore_header``
+  Do not process the `pandoc document header`_, but treat it like
+  regular text.
 
-  ``ignore_links``
-    Do not allow ``<a`` or expand ``[][]`` into a link.
+``ignore_links``
+  Do not allow ``<a`` or expand ``[][]`` into a link.
 
-  ``ignore_images``
-    Do not allow ``<img`` or expand ``![][]`` into a image.
+``ignore_images``
+  Do not allow ``<img`` or expand ``![][]`` into a image.
 
-  ``ignore_tables``
-    Don't process `PHP Markdown Extra`_ tables.
+``ignore_tables``
+  Don't process `PHP Markdown Extra`_ tables.
 
-  ``ignore_smartypants``
-    Disable `SmartyPants`_ processing.
+``ignore_smartypants``
+  Disable `SmartyPants`_ processing.
 
-  ``ignore_embedded_html``
-    Disable all embedded HTML by replacing all ``<``'s with
-    ``&lt;``.
+``ignore_embedded_html``
+  Disable all embedded HTML by replacing all ``<``'s with
+  ``&lt;``.
 
-  ``ignore_pseudo_protocols``
-    Do not process `pseudo-protocols`_.
+``ignore_pseudo_protocols``
+  Do not process `pseudo-protocols`_.
 
 Pandoc header elements can be retrieved with the methods
 ``get_pandoc_title()``, ``get_pandoc_author()`` and
@@ -136,7 +137,7 @@ Using ``libmarkdown``
 
 If you are familiar with using the C library and would rather use
 Discount's functionality directly, ``libmarkdown`` is what you are
-looking for; its simply a thin wrapper around the original C
+looking for; it's simply a thin wrapper around the original C
 implementation.  ``libmarkdown`` exposes the public functions and
 flags documented on the `Discount homepage`_.
 
@@ -151,8 +152,8 @@ To get a ``FILE*`` from a Python file descriptor for use with
 
     i = ctypes.pythonapi.PyFile_AsFile(sys.stdin)
     o = ctypes.pythonapi.PyFile_AsFile(sys.stdout)
-    doc = libmarkdown.mkd_in(i)
-    libmarkdown.markdown(doc, o)
+    doc = libmarkdown.mkd_in(i, 0)
+    libmarkdown.markdown(doc, o, 0))
 
 For ``libmarkdown`` functions to which you pass a ``char**``, use the
 following pattern::
@@ -200,7 +201,11 @@ Credits
 -------
 
 ``discount`` is maintained by `Tamas Kemenczy`_, and is funded by
-`Trapeze`_.  See the ``AUTHORS`` file for details.
+`Trapeze`_.  The `Discount`_ C library is written and maintained by
+`David Loren`_ and contributors.  See the ``AUTHORS`` file for
+details.
 
 .. _`Tamas Kemenczy`: mailto:tkemenczy@trapeze.com
 .. _`Trapeze`: http://trapeze.com
+.. _`Discount`:    http://www.pell.portland.or.us/~orc/Code/discount/
+.. _`David Loren`: http://www.pell.portland.or.us/~orc
