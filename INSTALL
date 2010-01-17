@@ -1,26 +1,61 @@
-Installing python-discount
-==========================
+Installing discount
+===================
 
-Currently, python-discount compiles the Discount C library as a
-shared object, which is bundled and installed a long with the Python
-source.
-
-This is mainly for convenience but also because, currently, the
-Discount source compiles a static library file, and as far as I know,
-ctypes can only load dynamic libraries.
+Currently, this package compiles the Discount C library as a
+dynamically linked library, which should live in same location as the
+Python module.  This is mainly for convenience but also because,
+currently, the Discount source compiles a static library, which is not
+useable with ctypes.
 
 If you have ways to improve the setup.py script, let me know!
 
-To install the package, simply run:
+
+Basic installation
+------------------
+
+To compile and install the package into the current active Python site
+environment, simply run:
 
     python setup.py install
 
 The setup script will download, unpack and configure the Discount
-source tarball.  Alternatively, you can point the build_ext
-command to a source directory:
+source tarball (more specifically, the build_ext subcommand does all
+the heavy lifting) by default.
 
-    python setup.py build_ext --discount-source-path=/path/to/discount
-    python setup.py install
+
+Advanced options
+----------------
+
+If installing the module into the current site environment is not an
+option, you can build the extension explicitly:
+
+    python setup.py build_ext
+
+Which will create the _discount.so file needed by the Python module.
+You just need to put the _discount.so and the discount Python module
+under your PYTHONPATH.
+
+The build_ext command also takes some options that customize how the C
+library itself is built:
+
+  --discount-src-path=PATH
+
+    Point build_ext to a custom path on your filesystem, containing
+    the unpacked Discount source files.  This is mutually exclusive
+    with --discount-download-url.
+
+  --discount-download-url=URL
+
+    Point build_ext to a custom url to obtain the Discount source
+    files.  The download url is assumed to be a .tar.gz file.  This is
+    mutually exclusive with --discount-src-path
+
+  --discount-configure-opts=OPTIONS
+
+    Customize the compile flags passed to the ./configure.sh script
+    bundled with the Discount source.  This should be a quoted string
+    like: "--enable-pandoc-header --relaxed-emphasis".
+
 
 Please report any bugs with the setup.py script to the GitHub
-project page, http://github.com/trapeze/python-discount/issues
+project page, http://github.com/trapeze/python-discount/issues.
