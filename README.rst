@@ -45,17 +45,19 @@ Let's take a look at a simple example::
     mkd = discount.Markdown(sys.stdin)
     mkd.write_html_content(sys.stdout)
 
-``Markdown`` takes one required argument, ``input_file_or_string``,
-the markdown formatted data.  If this argument is a file-like object,
-the file must be a real OS file descriptor, i.e. ``sys.stdin`` yes, a
-``StringIO`` object, no.  The argument is otherwise assumed to be a
-string-like object.  The same is true for ``Markdown`` methods that
-write HTML output to files.
 
-Otherwise, the data is assumed to be string-like.  ``Markdown`` also
-has methods for getting the output as a string, instead of writing to
-a file-like object.  Let's look at a modified version of the first
-example, this time using strings::
+``Markdown`` takes one required argument, ``input_file_or_string``,
+which is either a file object or a string-like object.
+
+    **Note:** There are limitations to what kind of file-like objects
+    can be passed to ``Markdown``.  File-like objects like
+    ``StringIO`` can't be handled at the C level in the same way as OS
+    file objects like ``sys.stdin`` and ``sys.stdout``, or file
+    objects returned by the builtin ``open()`` method.
+
+``Markdown`` also has methods for getting the output as a string,
+instead of writing to a file-like object.  Let's look at a modified
+version of the first example, this time using strings::
 
     import discout
 
@@ -63,7 +65,7 @@ example, this time using strings::
     print mkd.get_html_content()
 
 The ``Markdown`` class constructor also takes optional boolean keyword
-arguments.
+arguments that map to Discount flags compilation flags.
 
 ``toc``
   Generate table-of-contents headers (each generated <h1>, <h2>,
@@ -136,10 +138,10 @@ Using ``libmarkdown``
 ---------------------
 
 If you are familiar with using the C library and would rather use
-Discount's functionality directly, ``libmarkdown`` is what you are
-looking for; it's simply a thin wrapper around the original C
-implementation.  ``libmarkdown`` exposes the public functions and
-flags documented on the `Discount homepage`_.
+Discount library directly, ``libmarkdown`` is what you are looking
+for; it's simply a thin wrapper around the original C implementation.
+``libmarkdown`` exposes the public functions and flags documented on
+the `Discount homepage`_.
 
 In Python you'll need to do some extra work preparing Python objects
 you want to pass to ``libmarkdown``'s functions.
