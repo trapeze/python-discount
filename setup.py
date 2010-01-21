@@ -63,6 +63,7 @@ class build_ext(_build_ext):
         self.discount_configure_opts = DEFAULT_DISCOUNT_CONFIGURE_OPTS
 
     def build_extension(self, ext):
+#TODO: put all the build_extension_discount here since this is discount specific anyway
         if ext.name == '_discount':
             self.build_extension_discount(ext)
         else:
