@@ -63,13 +63,6 @@ class build_ext(_build_ext):
         self.discount_configure_opts = DEFAULT_DISCOUNT_CONFIGURE_OPTS
 
     def build_extension(self, ext):
-#TODO: put all the build_extension_discount here since this is discount specific anyway
-        if ext.name == '_discount':
-            self.build_extension_discount(ext)
-        else:
-            _build_ext.build_extension(self, ext)
-
-    def build_extension_discount(self, ext):
         if self.discount_src_path is None:
             filepath = os.path.join(
                 self.build_temp,
