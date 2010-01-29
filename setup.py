@@ -128,7 +128,7 @@ class build_ext(_build_ext):
 setup(
     name='discount',
     license='BSD',
-    version='0.1.0BETA',
+    version='0.1.0STABLE',
 
     author='Trapeze',
     author_email='tkemenczy@trapeze.com',
