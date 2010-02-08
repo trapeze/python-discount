@@ -1168,6 +1168,106 @@ class MarkdownClassTestCase(unittest.TestCase):
 
         self.assertEqual(html, '<p><code>test</code></p>\n')
 
+    def test_url_callback_constructor_kwargs(self):
+        def rewrite_links_func(url):
+            if url.startswith('/'):
+                return 'http://example.com%s' % url
+        
+        md = Markdown(
+            '[a](/a.html)',
+            rewrite_links_func=rewrite_links_func
+        )
+
+        html = md.get_html_content()
+
+        self.assertEqual(
+            html,
+            '<p><a href="http://example.com/a.html">a</a></p>'
+        )
+
+        def link_attrs_func(url):
+            if url.startswith('http'):
+                return 'target="_blank"'
+
+        md = Markdown(
+            '[a](/a.html)\n[b](http://example.com/b.html)',
+            link_attrs_func=link_attrs_func
+        )
+
+        html = md.get_html_content()
+
+        self.assertEqual(
+            html,
+            '<p>'
+            '<a href="/a.html">a</a>\n'
+            '<a href="http://example.com/b.html" target="_blank">b</a>'
+            '</p>'
+        )
+
+    def test_rewrite_links_as_method(self):
+        def rewrite_links_func(url):
+            if url.startswith('/'):
+                return 'http://example.com%s' % url
+        
+        md = Markdown('[a](/a.html)')
+        md.rewrite_links(rewrite_links_func)
+        html = md.get_html_content()
+
+        self.assertEqual(
+            html,
+            '<p><a href="http://example.com/a.html">a</a></p>'
+        )
+
+    def test_link_attrs_as_method(self):
+        def link_attrs_func(url):
+            if url.startswith('http'):
+                return 'target="_blank"'
+
+        md = Markdown('[a](/a.html)\n[b](http://example.com/b.html)')
+        md.link_attrs(link_attrs_func)
+        html = md.get_html_content()
+
+        self.assertEqual(
+            html,
+            '<p>'
+            '<a href="/a.html">a</a>\n'
+            '<a href="http://example.com/b.html" target="_blank">b</a>'
+            '</p>'
+        )
+
+    def test_rewrite_links_as_decorator(self):
+        md = Markdown('[a](/a.html)')
+
+        @md.rewrite_links
+        def rewrite_links_func(url):
+            if url.startswith('/'):
+                return 'http://example.com%s' % url
+
+        html = md.get_html_content()
+
+        self.assertEqual(
+            html,
+            '<p><a href="http://example.com/a.html">a</a></p>'
+        )
+
+    def test_link_attrs_as_decorator(self):
+        md = Markdown('[a](/a.html)\n[b](http://example.com/b.html)')
+
+        @md.link_attrs
+        def link_attrs_func(url):
+            if url.startswith('http'):
+                return 'target="_blank"'
+
+        html = md.get_html_content()
+
+        self.assertEqual(
+            html,
+            '<p>'
+            '<a href="/a.html">a</a>\n'
+            '<a href="http://example.com/b.html" target="_blank">b</a>'
+            '</p>'
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,8 @@
 """
 A Python interface for Discount, the C Markdown parser
 
-This module contains `libmarkdown`, a ctypes binding for Discount,
-as well as `Markdown`, a helper class built on top of this library.
+This module contains ``libmarkdown``, a ctypes binding for Discount,
+as well as ``Markdown``, a helper class built on top of this library.
 
 Visit the Discount homepage:
 http://www.pell.portland.or.us/~orc/Code/discount/
@@ -16,8 +16,8 @@ Basic usage examples:
     >>> md = Markdown(sys.stdin, autolink=True)
     >>> md.write_html_content(sys.stdout)
 
-See the `Markdown` docstrings for all keyword arguments, or the
-docstrings for `libmarkdown` if you want to use the C functions
+See the ``Markdown`` docstrings for all keyword arguments, or the
+docstrings for ``libmarkdown`` if you want to use the C functions
 directly.
 """
 
@@ -44,7 +44,7 @@ _KWARGS_TO_LIBMARKDOWN_FLAGS = {
 class MarkdownError(Exception):
     """
     Exception raised when a discount c function
-    returns an error code, `-1`.
+    returns an error code, ``-1``.
     """
     def __str__(self):
         return '%s failure' % self.args[0]
@@ -54,73 +54,82 @@ class Markdown(object):
     """
     Markdown to HTML conversion.
 
-    A single argument is required, `input_file_or_string`, the
+    A single argument is required, ``input_file_or_string``, the
     Markdown formatted data.  If this argument is a file-like object,
-    the file must be a real OS file descriptor, i.e. `sys.stdin` yes,
-    a `StringIO` object, no.  The argument is otherwise assumed to be
-    a string-like object.  The same is true for `Markdown` methods
-    that write HTML output to files.
+    the file must be a real OS file descriptor, i.e. ``sys.stdin``
+    yes, a ``StringIO`` object, no.  The argument is otherwise assumed
+    to be a string-like object.  The same is true for ``Markdown``
+    methods that write HTML output to files.
+
+    Optionally, you can specify two callback functions,
+    ``rewrite_links_func`` and ``link_attrs_func``, which are hooks
+    when links are processed in the markdown document (See the
+    ``rewrite_links()`` and ``link_attrs()`` methods).
 
     Additional boolean keyword arguments are also accepted:
 
-    * `toc`:
-         Generate table-of-contents headers (each generated <h1>,
-         <h2>, etc will include a id="name" argument.)  Use
-         `get_html_toc()` or `write_html_toc()` to generate the
-         table-of-contents itself.
+    ``toc`` : bool
+        Generate table-of-contents headers (each generated <h1>,
+        <h2>, etc will include a id="name" argument.)  Use
+        ``get_html_toc()`` or ``write_html_toc()`` to generate the
+        table-of-contents itself.
 
-    * `strict`:
-         Disable relaxed emphasis and superscripts.
+    ``strict``
+        Disable relaxed emphasis and superscripts.
 
-    * `autolink`:
-         Greedily expand links; if a url is encountered, convert it to
-         a hyperlink even if it isn't surrounded with `<>s`.
+    ``autolink``
+        Greedily expand links; if a url is encountered, convert it to
+        a hyperlink even if it isn't surrounded with ``<>s``.
 
-    * `safelink`:
-         Be paranoid about how `[][]` is expanded into a link - if the
-         url isn't a local reference, `http://`, `https://`, `ftp://`,
-         or `news://`, it will not be converted into a hyperlink.
+    ``safelink``
+        Be paranoid about how ``[][]`` is expanded into a link - if the
+        url isn't a local reference, ``http://``, ``https://``, ``ftp://``,
+        or ``news://``, it will not be converted into a hyperlink.
 
-    * `ignore_header`:
-         Do not process the document header, but treat it like regular
-         text.  See http://johnmacfarlane.net/pandoc/README.html#title-blocks
+    ``ignore_header``
+        Do not process the document header, but treat it like regular
+        text.  See http://johnmacfarlane.net/pandoc/README.html#title-blocks
 
-    * `ignore_links`:
-         Do not allow `<a` or expand `[][]` into a link.
+    ``ignore_links``
+        Do not allow ``<a`` or expand ``[][]`` into a link.
 
-    * `ignore_images`:
-         Do not allow `<img` or expand `![][]` into a image.
+    ``ignore_images``
+        Do not allow ``<img`` or expand ``![][]`` into a image.
 
-    * `ignore_tables`:
-         Don't process PHP Markdown Extra tables.  See
-         http://michelf.com/projects/php-markdown/extra/.
+    ``ignore_tables``
+        Don't process PHP Markdown Extra tables.  See
+        http://michelf.com/projects/php-markdown/extra/.
 
-    * `ignore_smartypants`:
-         Disable SmartyPants processing.  See
-         http://daringfireball.net/projects/smartypants/.
+    ``ignore_smartypants``
+        Disable SmartyPants processing.  See
+        http://daringfireball.net/projects/smartypants/.
 
-    * `ignore_embedded_html`:
-         Disable all embedded HTML by replacing all `<`'s with `&lt;`.
+    ``ignore_embedded_html``
+        Disable all embedded HTML by replacing all ``<``'s with ``&lt;``.
 
-    * `ignore_pseudo_protocols`:
-         Do not process pseudo-protocols.  See
-         http://www.pell.portland.or.us/~orc/Code/discount/#pseudo
+    ``ignore_pseudo_protocols``
+        Do not process pseudo-protocols.  See
+        http://www.pell.portland.or.us/~orc/Code/discount/#pseudo
 
     Pandoc header elements can be retrieved with the methods
-    `get_pandoc_title()`, `get_pandoc_author()` and
-    `get_pandoc_date()`.
+    ``get_pandoc_title()``, ``get_pandoc_author()`` and
+    ``get_pandoc_date()``.
 
     The converted HTML document parts can be retrieved as a string
-    with the `get_html_css()`, `get_html_toc()` and
-    `get_html_content()` methods, or written to a file with the
-    `write_html_css(fp)`, `write_html_toc(fp)` and
-    `write_html_content(fp)` methods, where `fp` is the output file
-    descriptor.
+    with the ``get_html_css()``, ``get_html_toc()`` and
+    ``get_html_content()`` methods, or written to a file with the
+    ``write_html_css(fp)``, ``write_html_toc(fp)`` and
+    ``write_html_content(fp)`` methods, where ``fp`` is the output
+    file descriptor.
     """
-    def __init__(self, input_file_or_string, **kwargs):
+    def __init__(
+        self, input_file_or_string,
+        rewrite_links_func=None, link_attrs_func=None,
+        **kwargs):
+
         self.input = input_file_or_string
 
-        # Convert a `kwargs` dict to a bitmask of libmarkdown flags.
+        # Convert a ``kwargs`` dict to a bitmask of libmarkdown flags.
         # All but one flag is exposed; MKD_1_COMPAT, which, according
         # to the original documentation, is not really useful other
         # than running MarkdownTest_1.0
@@ -128,6 +137,12 @@ class Markdown(object):
         for key in kwargs:
             flags |= _KWARGS_TO_LIBMARKDOWN_FLAGS.get(key, 0)
         self.flags = flags
+
+        if rewrite_links_func is not None:
+            self.rewrite_links(rewrite_links_func)
+
+        if link_attrs_func is not None:
+            self.link_attrs(link_attrs_func)
 
     def __del__(self):
         try:
@@ -152,6 +167,12 @@ class Markdown(object):
             ret = libmarkdown.mkd_compile(self._doc, self.flags)
             if ret == -1:
                 raise MarkdownError('mkd_compile')
+
+            if hasattr(self, '_rewrite_links_func'):
+                libmarkdown.mkd_e_url(self._doc, self._rewrite_links_func)
+
+            if hasattr(self, '_link_attrs_func'):
+                libmarkdown.mkd_e_flags(self._doc, self._link_attrs_func)
 
         finally:
             return self._doc
@@ -203,6 +224,46 @@ class Markdown(object):
             else:
                 return sb.value[:ln]
 
+    def rewrite_links(self, func):
+        """
+        Add a callback for rewriting links.
+
+        The callback should take a single argument, the url, and
+        should return a replacement url.  The callback function is
+        called everytime a ``[]()`` or ``<link>`` is processed.
+
+        You can use this method as a decorator on the function you
+        want to set as the callback.
+        """
+        @libmarkdown.e_url_callback
+        def _rewrite_links_func(string, size, context):
+            ret = func(string[:size])
+            if ret is not None:
+                return ctypes.addressof(ctypes.create_string_buffer(ret))
+        
+        self._rewrite_links_func = _rewrite_links_func
+        return func
+
+    def link_attrs(self, func):
+        """
+        Add a callback for adding attributes to links.
+
+        The callback should take a single argument, the url, and
+        should return additional text to be inserted in the link tag,
+        i.e. ``"target="_blank"``.
+
+        You can use this method as a decorator on the function you
+        want to set as the callback.
+        """
+        @libmarkdown.e_flags_callback
+        def _link_attrs_func(string, size, context):
+            ret = func(string[:size])
+            if ret is not None:
+                return ctypes.addressof(ctypes.create_string_buffer(ret))
+        
+        self._link_attrs_func = _link_attrs_func
+        return func
+
     def get_pandoc_title(self):
         """
         Get the document title from the pandoc header.
@@ -241,18 +302,18 @@ class Markdown(object):
 
     def write_html_content(self, fp):
         """
-        Write the document content to the file, `fp`.
+        Write the document content to the file, ``fp``.
         """
         self._generate_html_content(fp)
 
     def write_html_toc(self, fp):
         """
-        Write the document's table of contents to the file, `fp`.
+        Write the document's table of contents to the file, ``fp``.
         """
         self._generate_html_toc(fp)
 
     def write_html_css(self, fp):
         """
-        Write any style blocks in the document to the file, `fp`.
+        Write any style blocks in the document to the file, ``fp``.
         """
         self._generate_html_css(fp)
