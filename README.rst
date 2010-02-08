@@ -139,7 +139,7 @@ internal pages::
         rewrite_links_func=add_basepath
     )
 
-Here is an example that opens external pages in another window/tab:
+Here is an example that opens external pages in another window/tab::
 
     def add_target_blank(url):
         if url.startswith('http://'):
