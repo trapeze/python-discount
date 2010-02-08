@@ -1,4 +1,9 @@
-Primary authors:
+Primary authors of the C library:
+
+* David Parsons <orc@pell.chi.il.us> and contributors
+  (see the CREDITS file in the C source distribution)
+
+Primary authors of the Python bindings:
 
 * Tamas Kemenczy <tkemenczy@trapeze.com>
 
