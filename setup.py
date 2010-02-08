@@ -8,11 +8,12 @@ from distutils.command.build_ext import build_ext as _build_ext
 from distutils.core import setup, Extension
 
 
-DEFAULT_DISCOUNT_VERSION = '1.5.8'
+DEFAULT_DISCOUNT_VERSION = '1.6.1'
 
 
 DEFAULT_DISCOUNT_DOWNLOAD_URL = (
     'http://packages.python.org/discount/'
+    # 'http://www.pell.portland.or.us/~orc/Code/discount/'
     'discount-%s.tar.gz'
 ) % DEFAULT_DISCOUNT_VERSION
 
@@ -154,6 +155,7 @@ setup(
                 'amalloc.c', 'Csio.c', 'css.c', 'docheader.c',
                 'dumptree.c', 'generate.c', 'markdown.c', 'mkdio.c',
                 'resource.c', 'toc.c', 'version.c', 'xml.c', 'xmlpage.c',
+                'basename.c',
             ],
         )
     ],

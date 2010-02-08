@@ -1,8 +1,12 @@
 import ctypes
+import ctypes.util
 import tempfile
 import unittest
 
 from discount import Markdown, libmarkdown
+
+
+libc = ctypes.CDLL(ctypes.util.find_library('c'))
 
 
 class LibmarkdownTestCase(unittest.TestCase):
@@ -404,7 +408,7 @@ class LibmarkdownTestCase(unittest.TestCase):
 
         self.assertEqual(
             libmarkdown.mkd_cleanup.restype,
-            ctypes.c_int,
+            ctypes.c_void_p,
         )
 
         text = '`test`'
@@ -484,6 +488,147 @@ class LibmarkdownTestCase(unittest.TestCase):
 
         self.assertEqual(v, 'date')
 
+    def test_mkd_e_url(self):
+        self.assertEqual(
+            libmarkdown.mkd_e_url.argtypes,
+            (ctypes.POINTER(libmarkdown.Document),
+             libmarkdown.e_url_callback)
+        )
+
+        self.assertEqual(
+            libmarkdown.mkd_e_url.restype,
+            ctypes.c_void_p,
+        )
+
+        text = (
+            '[a](/a.html)\n'
+            '[b](/b.html)\n'
+        )
+        cp = ctypes.c_char_p(text)
+        doc = libmarkdown.mkd_string(cp, len(text), 0)
+        ret = libmarkdown.mkd_compile(doc, 0)
+
+        self.assertNotEqual(ret, -1)
+
+        # TODO get test with libc malloc/strcpy/free working.
+
+        # base = ctypes.c_char_p('http://example.com')
+
+        # @libmarkdown.e_url_callback
+        # def e_basename(string, size, context):
+        #     base = ctypes.string_at(context)
+        #     link = string[:size]
+        #     if base and link and link.startswith('/'):
+        #         ret = libc.malloc(len(base) + size + 2)
+        #         if ret > 0:
+        #             libc.strcpy(ret, context)
+        #             return ret
+        #     return 0
+
+        # @libmarkdown.e_free_callback
+        # def e_free(string, context):
+        #     if string:
+        #         libc.free(string)
+
+        # libmarkdown.mkd_e_url(doc, e_basename)
+        # libmarkdown.mkd_e_data(doc, base)
+        # libmarkdown.mkd_e_free(doc, e_free)
+
+        @libmarkdown.e_url_callback
+        def e_basename(string, size, context):
+            link = string[:size]
+
+            if link.startswith('/'):
+                abs_link = ctypes.create_string_buffer(
+                    'http://example.com%s' % link
+                )
+                return ctypes.addressof(abs_link)
+
+        libmarkdown.mkd_e_url(doc, e_basename)
+
+        sb = ctypes.c_char_p('')
+        ret = libmarkdown.mkd_document(doc, ctypes.byref(sb), 0)
+
+        self.assertNotEqual(ret, -1)
+        self.assertEqual(
+            sb.value[:ret],
+            '<p>'
+            '<a href="http://example.com/a.html">a</a>\n'
+            '<a href="http://example.com/b.html">b</a>'
+            '</p>'
+        )
+
+    def test_mkd_e_flags(self):
+        self.assertEqual(
+            libmarkdown.mkd_e_flags.argtypes,
+            (ctypes.POINTER(libmarkdown.Document),
+             libmarkdown.e_flags_callback)
+        )
+
+        self.assertEqual(
+            libmarkdown.mkd_e_flags.restype,
+            ctypes.c_void_p,
+        )
+
+        text = (
+            '[a](/a.html)\n'
+            '[b](/b.html)\n'
+        )
+        cp = ctypes.c_char_p(text)
+        doc = libmarkdown.mkd_string(cp, len(text), 0)
+        ret = libmarkdown.mkd_compile(doc, 0)
+
+        self.assertNotEqual(ret, -1)
+
+        @libmarkdown.e_flags_callback
+        def e_target_blank(string, size, context):
+            link = string[:size]
+            if link == '/a.html':
+                attr = ctypes.create_string_buffer('target="_blank"')
+                return ctypes.addressof(attr)
+
+        libmarkdown.mkd_e_flags(doc, e_target_blank)
+
+        sb = ctypes.c_char_p('')
+        ret = libmarkdown.mkd_document(doc, ctypes.byref(sb), 0)
+
+        self.assertNotEqual(ret, -1)
+        self.assertEqual(
+            sb.value[:ret],
+            '<p>'
+            '<a href="/a.html" target="_blank">a</a>\n'
+            '<a href="/b.html">b</a>'
+            '</p>'
+        )
+
+    def test_mkd_e_free(self):
+        self.assertEqual(
+            libmarkdown.mkd_e_free.argtypes,
+            (ctypes.POINTER(libmarkdown.Document),
+             libmarkdown.e_free_callback)
+        )
+
+        self.assertEqual(
+            libmarkdown.mkd_e_free.restype,
+            ctypes.c_void_p,
+        )
+
+        # TODO
+
+    def test_mkd_e_data(self):
+        self.assertEqual(
+            libmarkdown.mkd_e_data.argtypes,
+            (ctypes.POINTER(libmarkdown.Document),
+             ctypes.c_void_p)
+        )
+
+        self.assertEqual(
+            libmarkdown.mkd_e_data.restype,
+            ctypes.c_void_p,
+        )
+
+        # TODO
+
     # The following flag tests just ensure that the flags bits are
     # correct and enable/disable the appropriate output features.
 
@@ -513,7 +658,7 @@ class LibmarkdownTestCase(unittest.TestCase):
 
         self._test_flag(
             '<a href="a">a</a>',
-            '<p>&lt;a href="a">a</a></p>',
+            '<p>&lt;a href=&ldquo;a&rdquo;>a</a></p>',
             libmarkdown.MKD_NOLINKS
         )
 
@@ -526,7 +671,7 @@ class LibmarkdownTestCase(unittest.TestCase):
 
         self._test_flag(
             '<img src="test.png" />',
-            '<p>&lt;img src="test.png" /></p>',
+            '<p>&lt;img src=&ldquo;test.png&rdquo; /></p>',
             libmarkdown.MKD_NOIMAGE
         )
 

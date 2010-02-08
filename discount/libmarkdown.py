@@ -162,6 +162,20 @@ class Document(ctypes.Structure):
     ]
 
 
+e_url_callback = e_flags_callback = ctypes.CFUNCTYPE(
+    ctypes.c_char_p,
+    ctypes.c_char_p,
+    ctypes.c_int,
+    ctypes.c_void_p,
+)
+
+e_free_callback = ctypes.CFUNCTYPE(
+    ctypes.c_void_p,
+    ctypes.c_char_p,
+    ctypes.c_void_p,
+)
+
+
 mkd_in = _so.mkd_in
 mkd_in.argtypes = (
     ctypes.POINTER(FILE),
@@ -252,6 +266,7 @@ mkd_dump.argtypes = (
 
 mkd_cleanup = _so.mkd_cleanup
 mkd_cleanup.argtypes = (ctypes.POINTER(Document),)
+mkd_cleanup.restype = ctypes.c_void_p
 
 mkd_doc_title = _so.mkd_doc_title
 mkd_doc_title.argtypes = (ctypes.POINTER(Document),)
@@ -264,3 +279,19 @@ mkd_doc_author.restype = ctypes.c_char_p
 mkd_doc_date = _so.mkd_doc_date
 mkd_doc_date.argtypes = (ctypes.POINTER(Document),)
 mkd_doc_date.restype = ctypes.c_char_p
+
+mkd_e_url = _so.mkd_e_url
+mkd_e_url.argtypes = (ctypes.POINTER(Document), e_url_callback)
+mkd_e_url.restype = ctypes.c_void_p
+
+mkd_e_flags = _so.mkd_e_flags
+mkd_e_flags.argtypes = (ctypes.POINTER(Document), e_flags_callback)
+mkd_e_flags.restype = ctypes.c_void_p
+
+mkd_e_free = _so.mkd_e_free
+mkd_e_free.argtypes = (ctypes.POINTER(Document), e_free_callback)
+mkd_e_free.restype = ctypes.c_void_p
+
+mkd_e_data = _so.mkd_e_data
+mkd_e_data.argtypes = (ctypes.POINTER(Document), ctypes.c_void_p)
+mkd_e_data.restype = ctypes.c_void_p
