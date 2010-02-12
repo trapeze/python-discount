@@ -129,7 +129,7 @@ class build_ext(_build_ext):
 setup(
     name='discount',
     license='BSD',
-    version='0.2.0ALPHA',
+    version='0.2.0BETA',
 
     author='Trapeze',
     author_email='tkemenczy@trapeze.com',
@@ -165,7 +165,7 @@ setup(
     },
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: C',

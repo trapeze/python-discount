@@ -1,3 +1,24 @@
+discount-0.2.0BETA
+==================
+
+Bug Fixes and Small Enhancements
+--------------------------------
+
+* Updated RELEASES file.
+
+* * *
+
+discount-0.2.0ALPHA
+===================
+
+Major Code Changes
+------------------
+
+* Added support for Discount's ``mkd_e_*`` url callback functions in
+  ``libmarkdown`` and the ``Markdown`` class.
+
+* * *
+
 discount-0.1.0STABLE
 ====================
 
