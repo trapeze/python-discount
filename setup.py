@@ -12,8 +12,8 @@ DEFAULT_DISCOUNT_VERSION = '1.6.1'
 
 
 DEFAULT_DISCOUNT_DOWNLOAD_URL = (
-    'http://packages.python.org/discount/'
     # 'http://www.pell.portland.or.us/~orc/Code/discount/'
+    'http://packages.python.org/discount/'
     'discount-%s.tar.gz'
 ) % DEFAULT_DISCOUNT_VERSION
 
@@ -129,7 +129,7 @@ class build_ext(_build_ext):
 setup(
     name='discount',
     license='BSD',
-    version='0.1.0STABLE',
+    version='0.2.0ALPHA',
 
     author='Trapeze',
     author_email='tkemenczy@trapeze.com',
@@ -165,7 +165,7 @@ setup(
     },
 
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: C',
