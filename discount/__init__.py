@@ -151,9 +151,7 @@ class Markdown(object):
             pass
 
     def _get_compiled_doc(self):
-        try:
-            self._doc
-        except AttributeError:
+        if not hasattr(self, '_doc'):
             if hasattr(self.input, 'read'):
                 # If the input is file-like
                 input_ = ctypes.pythonapi.PyFile_AsFile(self.input)
@@ -165,6 +163,7 @@ class Markdown(object):
                     input_, len(self.input), self.flags)
 
             ret = libmarkdown.mkd_compile(self._doc, self.flags)
+
             if ret == -1:
                 raise MarkdownError('mkd_compile')
 
@@ -174,8 +173,7 @@ class Markdown(object):
             if hasattr(self, '_link_attrs_func'):
                 libmarkdown.mkd_e_flags(self._doc, self._link_attrs_func)
 
-        finally:
-            return self._doc
+        return self._doc
 
     def _generate_html_content(self, fp=None):
         if fp is not None:
