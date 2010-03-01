@@ -1,3 +1,14 @@
+discount-0.2.1STABLE
+====================
+
+Bug Fixes and Small Enhancements
+--------------------------------
+
+* Fixed exception handling in ``Markdown._get_compiled_doc`` (See
+  http://github.com/trapeze/python-discount/issues#issue/1)
+
+* * *
+
 discount-0.2.0BETA
 ==================
 

@@ -32,7 +32,7 @@ The ``discount`` Python module contains two things of interest:
 Using the ``Markdown`` class
 ----------------------------
 
-The ``Markdown`` class wraps the c functions exposed in the
+The ``Markdown`` class wraps the C functions exposed in the
 ``libmarkdown`` submodule and handles the ctypes leg work for you.  If
 you want to use the Discount functions directly, skip to the next
 section about ``libmarkdown``.
@@ -63,6 +63,20 @@ version of the first example, this time using strings::
 
     mkd = discount.Markdown('`test`')
     print mkd.get_html_content()
+
+Currently, ``Markdown`` does not manage character encoding, since the
+``Markdown`` wraps C functions that support any character encoding
+that is a superset of ASCII.  However, when working with unicode
+objects in Python, you will need to pass them as bytestrings to
+``Markdown``, and then convert them back to unicode afterwards.  Here
+is an example of how you could do this::
+
+   import discount
+
+   txt = u'\xeb' # a unicode character, an e with an umlaut
+   mkd = discount.Markdown(txt.encode('utf-8'))
+   out = mkd.get_html_content()
+   val = out.decode('utf-8')
 
 The ``Markdown`` class constructor also takes optional boolean keyword
 arguments that map to Discount flags compilation flags.
