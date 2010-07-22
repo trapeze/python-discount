@@ -8,17 +8,18 @@ from distutils.command.build_ext import build_ext as _build_ext
 from distutils.core import setup, Extension
 
 
-DEFAULT_DISCOUNT_VERSION = '1.6.1'
+DEFAULT_DISCOUNT_VERSION = '1.6.6'
 
 
 DEFAULT_DISCOUNT_DOWNLOAD_URL = (
-    # 'http://www.pell.portland.or.us/~orc/Code/discount/'
-    'http://packages.python.org/discount/'
-    'discount-%s.tar.gz'
+    'http://github.com/Orc/discount/tarball/v%s'
 ) % DEFAULT_DISCOUNT_VERSION
 
 
 DEFAULT_DISCOUNT_CONFIGURE_OPTS = (
+    # DL tag extension
+    '--enable-dl-tag '
+
     # Use pandoc-style header blocks
     '--enable-pandoc-header '
 
@@ -65,10 +66,7 @@ class build_ext(_build_ext):
 
     def build_extension(self, ext):
         if self.discount_src_path is None:
-            filepath = os.path.join(
-                self.build_temp,
-                posixpath.basename(self.discount_download_url)
-            )
+            filepath = os.path.join(self.build_temp, 'discount.tar.gz')
             if not os.path.lexists(self.build_temp):
                 os.makedirs(self.build_temp)
 
@@ -86,7 +84,12 @@ class build_ext(_build_ext):
                     ['tar', 'xzf', filepath, '-C', self.build_temp]
                 )
 
-            discount_src_path = filepath[:-len('.tar.gz')]
+                # find extracted source dir
+                for name in os.listdir(self.build_temp):
+                    candidate_path = os.path.join(self.build_temp, name)
+                    if (os.path.isdir(candidate_path) and
+                        os.path.exists(os.path.join(candidate_path, 'markdown.h'))):
+                        discount_src_path = candidate_path
 
         else:
             discount_src_path = self.discount_src_path
@@ -155,7 +158,7 @@ setup(
                 'amalloc.c', 'Csio.c', 'css.c', 'docheader.c',
                 'dumptree.c', 'generate.c', 'markdown.c', 'mkdio.c',
                 'resource.c', 'toc.c', 'version.c', 'xml.c', 'xmlpage.c',
-                'basename.c',
+                'basename.c', 'emmatch.c', 'tags.c', 'html5.c',
             ],
         )
     ],

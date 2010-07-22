@@ -151,6 +151,7 @@ class MMIOT(ctypes.Structure):
 
 class Document(ctypes.Structure):
     _fields_ = [
+        ('magic', ctypes.c_int),
         ('headers', ctypes.POINTER(Line)),
         ('content', Line_ANCHOR),
         ('code', ctypes.POINTER(Paragraph)),
@@ -158,7 +159,7 @@ class Document(ctypes.Structure):
         ('html', ctypes.c_int),
         ('tabstop', ctypes.c_int),
         ('ctx', ctypes.POINTER(MMIOT)),
-        ('base', ctypes.c_char_p),
+        ('cb', ctypes.c_void_p), # TODO: bind related structures
     ]
 
 
