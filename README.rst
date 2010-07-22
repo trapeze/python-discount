@@ -1,11 +1,11 @@
 Discount
 ========
 
-This Python package is a `ctypes`_ binding of `David Loren`_'s
+This Python package is a `ctypes`_ binding of `David Parson`_'s
 `Discount`_, a C implementation of `John Gruber`_'s `Markdown`_.
 
 .. _`ctypes`:      http://docs.python.org/library/ctypes.html
-.. _`David Loren`: http://www.pell.portland.or.us/~orc
+.. _`David Parson`: http://www.pell.portland.or.us/~orc
 .. _`Discount`:    http://www.pell.portland.or.us/~orc/Code/discount/
 .. _`John Gruber`: http://daringfireball.net/
 .. _`Markdown`:    http://daringfireball.net/projects/markdown
@@ -262,12 +262,12 @@ See the ``LICENSE`` file in the source distribution for details.
 Credits
 -------
 
-``discount`` is maintained by `Tamas Kemenczy`_, and is funded by
-`Trapeze`_.  The `Discount`_ C library is written and maintained by
-`David Loren`_ and contributors.  See the ``AUTHORS`` file for
-details.
+The `Discount`_ C library is written and maintained by `David Parson`_
+and contributors.  See the ``AUTHORS`` file for details.  The python
+``discount`` binding is maintained by `Tamas Kemenczy`_, and is funded
+by `Trapeze`_.
 
+.. _`Discount`:    http://www.pell.portland.or.us/~orc/Code/discount/
+.. _`David Parson`: http://www.pell.portland.or.us/~orc
 .. _`Tamas Kemenczy`: mailto:tkemenczy@trapeze.com
 .. _`Trapeze`: http://trapeze.com
-.. _`Discount`:    http://www.pell.portland.or.us/~orc/Code/discount/
-.. _`David Loren`: http://www.pell.portland.or.us/~orc
