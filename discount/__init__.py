@@ -41,6 +41,24 @@ _KWARGS_TO_LIBMARKDOWN_FLAGS = {
 }
 
 
+def add_html5_tags():
+    """
+    Adds (globally, and non-removably) a handful of new tags for html5
+    support.
+    """
+    libmarkdown.mkd_with_html5_tags()
+
+
+def define_tag(tag, selfclose=False):
+    if selfclose:
+        _selfclose = 1
+    else:
+        _selfclose = 0
+
+    cp = ctypes.c_char_p(tag)
+    libmarkdown.mkd_define_tag(cp, _selfclose)
+
+
 class MarkdownError(Exception):
     """
     Exception raised when a discount c function

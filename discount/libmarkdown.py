@@ -177,6 +177,8 @@ e_free_callback = ctypes.CFUNCTYPE(
 )
 
 
+mkd_initialize = _so.mkd_initialize
+
 mkd_in = _so.mkd_in
 mkd_in.argtypes = (
     ctypes.POINTER(FILE),
@@ -296,3 +298,8 @@ mkd_e_free.restype = ctypes.c_void_p
 mkd_e_data = _so.mkd_e_data
 mkd_e_data.argtypes = (ctypes.POINTER(Document), ctypes.c_void_p)
 mkd_e_data.restype = ctypes.c_void_p
+
+mkd_with_html5_tags = _so.mkd_with_html5_tags
+
+mkd_define_tag = _so.mkd_define_tag
+mkd_define_tag.argtypes = (ctypes.c_char_p, ctypes.c_int)
