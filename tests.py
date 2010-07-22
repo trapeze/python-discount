@@ -102,7 +102,7 @@ class LibmarkdownTestCase(unittest.TestCase):
         ret = libmarkdown.mkd_line(cp, len(text), ctypes.byref(sb), 0)
 
         self.assertNotEqual(ret, -1)
-        self.assertEqual(sb.value, '<code>test</code>')
+        self.assertEqual(sb.value[:ret], '<code>test</code>')
 
     def test_mkd_generateline(self):
         self.assertEqual(
