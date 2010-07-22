@@ -830,6 +830,59 @@ class LibmarkdownTestCase(unittest.TestCase):
             libmarkdown.MKD_TOC
         )
 
+    def test_mkd_with_html5_tags(self):
+        text = '<section>foo</section>'
+        cp = ctypes.c_char_p(text)
+        out = tempfile.TemporaryFile('r+w')
+        doc = libmarkdown.mkd_string(cp, len(text), 0)
+        ret = libmarkdown.mkd_compile(doc, 0)
+
+        self.assertNotEqual(ret, -1)
+        
+        ret = libmarkdown.mkd_generatehtml(
+            doc, ctypes.pythonapi.PyFile_AsFile(out)
+        )
+
+        self.assertNotEqual(ret, -1)
+
+        out.seek(0)
+        html = out.read()
+
+        self.assertEqual(
+            html, (
+                '<p><section>foo</section></p>\n'
+            )
+        )
+
+        out.close()
+
+        libmarkdown.mkd_with_html5_tags()
+
+        text = '<section>foo</section>'
+        cp = ctypes.c_char_p(text)
+        out = tempfile.TemporaryFile('r+w')
+        doc = libmarkdown.mkd_string(cp, len(text), 0)
+        ret = libmarkdown.mkd_compile(doc, 0)
+
+        self.assertNotEqual(ret, -1)
+        
+        ret = libmarkdown.mkd_generatehtml(
+            doc, ctypes.pythonapi.PyFile_AsFile(out)
+        )
+
+        self.assertNotEqual(ret, -1)
+
+        out.seek(0)
+        html = out.read()
+
+        self.assertEqual(
+            html, (
+                '<section>foo</section>\n\n'
+            )
+        )
+
+        out.close()
+
 
 class MarkdownClassTestCase(unittest.TestCase):
     def test_fails_without_args(self):
