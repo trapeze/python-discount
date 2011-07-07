@@ -891,7 +891,7 @@ class MarkdownClassTestCase(unittest.TestCase):
     def test_fails_without_args(self):
         self.assertRaises(TypeError, Markdown)
 
-    def test__accepts_string_arg(self):
+    def test_accepts_string_arg(self):
         md = Markdown('`test`')
 
     def test_accepts_file_arg(self):
@@ -1323,6 +1323,29 @@ class MarkdownClassTestCase(unittest.TestCase):
             '<a href="http://example.com/b.html" target="_blank">b</a>'
             '</p>'
         )
+
+    def test_empty_document_renders(self):
+        md = Markdown('')
+        html = md.get_html_content()
+        self.assertEqual(html, '')
+
+        md = Markdown('    \t    \n    ')
+        html = md.get_html_content()
+        self.assertEqual(html, '')
+
+        i = tempfile.TemporaryFile('r+w')
+        md = Markdown(i)
+        html = md.get_html_content()
+        i.close()
+        self.assertEqual(html, '')
+
+        i = tempfile.TemporaryFile('r+w')
+        i.write('    \t    \n    ')
+        i.seek(0)
+        md = Markdown(i)
+        html = md.get_html_content()
+        i.close()
+        self.assertEqual(html, '')
 
 
 if __name__ == '__main__':

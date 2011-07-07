@@ -207,7 +207,7 @@ class Markdown(object):
             if ln == -1:
                 raise MarkdownError('mkd_document')
             else:
-                return sb.value[:ln]
+                return sb.value[:ln] if sb.value else ''
         self._alloc = []
 
     def _generate_html_toc(self, fp=None):
@@ -224,7 +224,7 @@ class Markdown(object):
             if ln == -1:
                 raise MarkdownError('mkd_toc')
             else:
-                return sb.value[:ln]
+                return sb.value[:ln] if sb.value else ''
         self._alloc = []
 
     def _generate_html_css(self, fp=None):
@@ -242,7 +242,7 @@ class Markdown(object):
             if ln == -1:
                 raise MarkdownError('mkd_css')
             else:
-                return sb.value[:ln]
+                return sb.value[:ln] if sb.value else ''
         self._alloc = []
 
     def rewrite_links(self, func):
