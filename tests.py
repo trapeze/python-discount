@@ -534,6 +534,8 @@ class LibmarkdownTestCase(unittest.TestCase):
         # libmarkdown.mkd_e_data(doc, base)
         # libmarkdown.mkd_e_free(doc, e_free)
 
+        alloc = []
+
         @libmarkdown.e_url_callback
         def e_basename(string, size, context):
             link = string[:size]
@@ -542,6 +544,7 @@ class LibmarkdownTestCase(unittest.TestCase):
                 abs_link = ctypes.create_string_buffer(
                     'http://example.com%s' % link
                 )
+                alloc.append(abs_link)
                 return ctypes.addressof(abs_link)
 
         libmarkdown.mkd_e_url(doc, e_basename)

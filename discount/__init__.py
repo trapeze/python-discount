@@ -162,6 +162,8 @@ class Markdown(object):
         if link_attrs_func is not None:
             self.link_attrs(link_attrs_func)
 
+        self._alloc = []
+
     def __del__(self):
         try:
             libmarkdown.mkd_cleanup(self._doc)
@@ -206,6 +208,7 @@ class Markdown(object):
                 raise MarkdownError('mkd_document')
             else:
                 return sb.value[:ln]
+        self._alloc = []
 
     def _generate_html_toc(self, fp=None):
         self.flags |= libmarkdown.MKD_TOC
@@ -222,6 +225,7 @@ class Markdown(object):
                 raise MarkdownError('mkd_toc')
             else:
                 return sb.value[:ln]
+        self._alloc = []
 
     def _generate_html_css(self, fp=None):
         if fp is not None:
@@ -239,6 +243,7 @@ class Markdown(object):
                 raise MarkdownError('mkd_css')
             else:
                 return sb.value[:ln]
+        self._alloc = []
 
     def rewrite_links(self, func):
         """
@@ -255,8 +260,10 @@ class Markdown(object):
         def _rewrite_links_func(string, size, context):
             ret = func(string[:size])
             if ret is not None:
-                return ctypes.addressof(ctypes.create_string_buffer(ret))
-        
+                buf = ctypes.create_string_buffer(ret)
+                self._alloc.append(buf)
+                return ctypes.addressof(buf)
+
         self._rewrite_links_func = _rewrite_links_func
         return func
 
@@ -275,8 +282,10 @@ class Markdown(object):
         def _link_attrs_func(string, size, context):
             ret = func(string[:size])
             if ret is not None:
-                return ctypes.addressof(ctypes.create_string_buffer(ret))
-        
+                buf = ctypes.create_string_buffer(ret)
+                self._alloc.append(buf)
+                return ctypes.addressof(buf)
+
         self._link_attrs_func = _link_attrs_func
         return func
 
